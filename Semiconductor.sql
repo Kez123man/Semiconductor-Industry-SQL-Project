@@ -69,3 +69,34 @@ FROM (
         country_iso3
 ) t
 ORDER BY company_name, year_1;
+
+--Performance Analysis
+
+WITH Units_Ship AS (
+SELECT
+year_date,
+chip_name,
+vendor,
+SUM(estimated_shipments_units) as Total_units_shipped
+FROM
+ai_chip_market
+GROUP BY
+year_date,
+vendor,
+chip_name
+) 
+
+SELECT 
+year_date,
+chip_name,
+vendor,
+Total_units_shipped,
+LAG(Total_units_shipped) OVER(PARTITION BY chip_name ORDER BY year_date) AS previous_year_shipped 
+FROM 
+Units_Ship
+year_date
+
+SELECT 
+*
+FROM 
+ai_chip_market
