@@ -45,7 +45,7 @@ SELECT
         year_1
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
     ) AS total_revenue,
-    AVG(revenue_bn) OVER ( --Adding OVER() turns the aggregate (SUM) into a window function
+    AVG(revenue_bn) OVER ( --Adding OVER() turns the aggregate (AVG) into a window function
         ORDER BY 
         company_name,
         year_1
