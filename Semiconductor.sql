@@ -9,7 +9,7 @@ GROUP BY year, product
 ORDER BY year
 
 
---Cumulative Analysis
+--Cumulative Analysis (Practice)
 SELECT 
 year_1, 
 t.company_name, -- no "t."
@@ -32,7 +32,7 @@ GROUP BY company_name, year, country_iso3, segment, revenue_usd_bn
 ) t
 
 
-
+--Cumulative Analysis (Real)
 SELECT
     company_name,
     year_1,
