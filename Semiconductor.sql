@@ -104,7 +104,7 @@ year_date
 
 -- Part-to-Whole Analysis 
 
--- Which company contributes the most to overall R&D Spending
+-- Which company contributes the most to overall R&D Spending?
 
 WITH rd_spend AS 
 (
@@ -121,15 +121,13 @@ company_name
 
 SELECT
 company_name,
-ROUND(total_RD_comp,3) AS total_RD_comp,
-ROUND(SUM(total_RD_comp) OVER (),3) AS all_rd_sum,
-ROUND((total_RD_comp/SUM(total_RD_comp) OVER ()) * 100, 3) AS all_rd_sum_per
+ROUND(total_RD_comp,2) AS total_RD_comp_BN,
+ROUND(SUM(total_RD_comp) OVER (),2) AS all_rd_sum_BN,
+CONCAT(ROUND((total_RD_comp/SUM(total_RD_comp) OVER ()) * 100, 2), '%') AS all_rd_sum_per
 FROM
 rd_spend
 GROUP BY 
 company_name,
 total_RD_comp
-ORDER BY all_rd_sum_per DESC
+ORDER BY total_RD_comp_BN DESC
 ;
-
-
