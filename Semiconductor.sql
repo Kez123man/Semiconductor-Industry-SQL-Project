@@ -91,6 +91,7 @@ chip_name,
 vendor,
 Total_units_shipped,
 AVG(Total_units_shipped) OVER (PARTITION BY chip_name) AS avg_unit_ship,
+--year over year analysis
 CASE WHEN Total_units_shipped - AVG(Total_units_shipped) OVER (PARTITION BY chip_name) > 0 THEN 'Above Average'
 	 WHEN Total_units_shipped - AVG(Total_units_shipped) OVER (PARTITION BY chip_name)  < 0 THEN 'Below Average'
 	 ELSE 'AVG'
