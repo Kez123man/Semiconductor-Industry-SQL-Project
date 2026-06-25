@@ -71,7 +71,6 @@ FROM (
 ORDER BY company_name, year_1;
 
 --Performance Analysis
-
 WITH Units_Ship AS (
 SELECT
 year_date,
@@ -91,12 +90,13 @@ year_date,
 chip_name,
 vendor,
 Total_units_shipped,
-LAG(Total_units_shipped) OVER(PARTITION BY chip_name ORDER BY year_date) AS previous_year_shipped 
+AVG(Total_units_shipped) OVER (PARTITION BY chip_name) AS avg_unit_ship,
+CASE WHEN Total_units_shipped - AVG(Total_units_shipped) OVER (PARTITION BY chip_name) > 0 THEN 'Above Average'
+	 WHEN Total_units_shipped - AVG(Total_units_shipped) OVER (PARTITION BY chip_name)  < 0 THEN 'Below Average'
+	 ELSE 'AVG'
+END avg_chng,
+LAG(Total_units_shipped) OVER(PARTITION BY chip_name ORDER BY year_date) AS previous_year_shipped, 
+Total_units_shipped - LAG(Total_units_shipped) OVER(PARTITION BY chip_name ORDER BY year_date) AS diff_units_shipped
 FROM 
 Units_Ship
 year_date
-
-SELECT 
-*
-FROM 
-ai_chip_market
