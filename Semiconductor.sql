@@ -131,3 +131,35 @@ company_name,
 total_RD_comp
 ORDER BY total_RD_comp_BN DESC
 ;
+
+
+-- Data Segmentation
+
+-- 
+
+WITH node_segment AS
+(
+SELECT 
+company,
+country_iso3,
+process_node_nm,
+CASE WHEN process_node_nm <= 5 THEN '0-5 nodes'
+	WHEN process_node_nm BETWEEN 6 AND 10 THEN '6-10 nodes'
+	WHEN process_node_nm BETWEEN 11 AND 20 THEN '11-20 nodes'
+	ELSE 'Over 20 nodes'
+END node_nm_range
+FROM 
+fab_capacity
+GROUP BY
+company,
+country_iso3,
+process_node_nm)
+
+SELECT
+COUNT(node_nm_range) AS total_nm_nodes,
+node_nm_range
+FROM
+node_segment
+GROUP BY
+node_nm_range
+ORDER BY total_nm_nodes;
